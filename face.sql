@@ -390,3 +390,16 @@ INSERT INTO COMPARTILHAMENTO(
     'RS', 
     '2021-06-10 13:00:00'
 );
+
+--A)
+--B)
+--C)
+--D)
+--E)
+--F)
+--G)
+--H)
+--I)
+--J)
+--K)
+--L)
