@@ -28,8 +28,15 @@ JOIN SABOR ON SABORINGREDIENTE.SABOR = SABOR.CODIGO
 ORDER BY QUANTIDADE ASC;
 
 --C)
-
-
+SELECT  CASE STRFTIME('%m', COMANDA.DATA, 'localtime')
+        WHEN '01' THEN 'domingo'
+        WHEN '02' THEN 'segunda'
+        WHEN '03' THEN 'terca'
+        WHEN '04' THEN 'quarta'
+        WHEN '05' THEN 'quinta'
+        WHEN '06' THEN 'sexta'
+        WHEN '07' THEN 'sabado'
+    END AS DIAS
 
 --D)
 SELECT MESA.NOME, COUNT(*) AS QUANTIDADE FROM COMANDA 
