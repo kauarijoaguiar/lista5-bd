@@ -305,6 +305,58 @@ VALUES
         0,
         0,
         2
+    ),
+     (
+        8,
+        'joaosbras@mymail.com',
+        'Hoje eu aprendi como inserir dados no SQLite no IFRS',
+        'Rio Grande',
+        'RS',
+        'Brasil',
+        '2021-06-02 15:00:00',
+        null,
+        1,
+        2,
+        null
+    ),
+     (
+        9,
+        'joaosbras@mymail.com',
+        'Hoje eu aprendi como inserir dados no SQLite no IFRS',
+        'a',
+        'b',
+        'EUA',
+        '2021-06-02 15:00:00',
+        null,
+        1,
+        2,
+        null
+    ),
+     (
+        10,
+        'joaosbras@mymail.com',
+        'Hoje eu aprendi como inserir dados no SQLite no IFRS',
+        'a',
+        'b',
+        'EUA',
+        '2021-06-02 15:00:00',
+        null,
+        1,
+        2,
+        null
+    ),
+     (
+        11,
+        'joaosbras@mymail.com',
+        'Hoje eu aprendi como inserir dados no SQLite no IFRS',
+        'c',
+        'd',
+        'Cuba',
+        '2021-06-02 15:00:00',
+        null,
+        1,
+        2,
+        null
     );
 
 INSERT INTO
@@ -313,7 +365,8 @@ VALUES
     (1, 'BD'),
     (2, 'SQLite'),
     (3, 'INSERT'),
-    (4, 'atendimento');
+    (4, 'atendimento'),
+    (5, 'assunto diferente');
 
 INSERT INTO
     ASSUNTOPOST (CODIGOPOST, CODIGOASSUNTO)
@@ -326,7 +379,11 @@ VALUES
     (5, 4),
     (5, 1),
     (6, 1),
-    (6, 2);
+    (6, 2),
+    (8, 5),
+    (9, 1),
+    (10, 2),
+    (11, 1);
 
 INSERT INTO
     REACAO(
@@ -412,40 +469,40 @@ LIMIT 1
 ORDER BY NUMEROREACOES ASC;
 
 --C)
-SELECT ASSUNTO.ASSUNTO AS ASSUNTO, COUNT(ASSUNTO) AS QUANTIDADE FROM ASSUNTO
+SELECT ASSUNTO.ASSUNTO AS ASSUNTO FROM ASSUNTO
     JOIN ASSUNTOPOST ON ASSUNTOPOST.CODIGOASSUNTO = ASSUNTO.CODIGO
     JOIN POST ON ASSUNTOPOST.CODIGOPOST = POST.CODIGO
 WHERE DATE(POST.DATAPOST, 'localtime') 
-BETWEEN DATE ('now', '-120 days', 'localtime' ) 
+BETWEEN DATE ('now', '-30 days', 'localtime' ) 
  AND DATE ('now', 'localtime') AND POST.PAIS = 'Brasil'
 GROUP BY ASSUNTO.CODIGO
-HAVING QUANTIDADE <= (
+HAVING COUNT(ASSUNTO) <= (
 SELECT COUNT(ASSUNTO) AS QUANTIDADE FROM ASSUNTO
     JOIN ASSUNTOPOST ON ASSUNTOPOST.CODIGOASSUNTO = ASSUNTO.CODIGO
     JOIN POST ON ASSUNTOPOST.CODIGOPOST = POST.CODIGO
-WHERE DATE(POST.DATAPOST, 'localtime') BETWEEN DATE ('now', '-120 days', 'localtime' ) 
+WHERE DATE(POST.DATAPOST, 'localtime') BETWEEN DATE ('now', '-30 days', 'localtime' ) 
 	AND DATE ('now', 'localtime') AND POST.PAIS = 'Brasil' 
 	GROUP BY ASSUNTO.ASSUNTO
-)	ORDER BY QUANTIDADE DESC
+)
 LIMIT 5;
 
 --D)
-SELECT POST.PAIS AS PAIS, ASSUNTO.ASSUNTO AS ASSUNTO, COUNT(ASSUNTO) 
-AS QUANTIDADE FROM ASSUNTO
+SELECT POST.PAIS AS PAIS, ASSUNTO.ASSUNTO AS ASSUNTO FROM ASSUNTO
     JOIN ASSUNTOPOST ON ASSUNTOPOST.CODIGOASSUNTO = ASSUNTO.CODIGO
     JOIN POST ON ASSUNTOPOST.CODIGOPOST = POST.CODIGO
 WHERE DATE(POST.DATAPOST, 'localtime') 
 BETWEEN DATE ('now', '-120 days', 'localtime' ) 
  AND DATE ('now', 'localtime')
-GROUP BY ASSUNTO.CODIGO
-HAVING QUANTIDADE <= (
+GROUP BY ASSUNTO.CODIGO, POST.PAIS
+HAVING COUNT(ASSUNTO)  <= (
 SELECT COUNT(ASSUNTO) AS QUANTIDADE FROM ASSUNTO
     JOIN ASSUNTOPOST ON ASSUNTOPOST.CODIGOASSUNTO = ASSUNTO.CODIGO
     JOIN POST ON ASSUNTOPOST.CODIGOPOST = POST.CODIGO
 WHERE DATE(POST.DATAPOST, 'localtime') BETWEEN DATE ('now', '-120 days', 'localtime' ) 
 	AND DATE ('now', 'localtime')
-	GROUP BY ASSUNTO.ASSUNTO, POST.PAIS
-)	ORDER BY QUANTIDADE DESC
+	GROUP BY ASSUNTO.ASSUNTO
+    ORDER BY QUANTIDADE DESC
+)
 LIMIT 5;
 
 --E)
