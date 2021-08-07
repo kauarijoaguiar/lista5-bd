@@ -263,8 +263,22 @@ group by diasemana
 order by 2 desc
 limit 1;
 --N)
+SELECT SABOR.NOME as sabor, BORDA.NOME borda, COUNT(*) as pedidos
+
 
 
 --O)
+
 --P)
 
+SELECT SABOR.NOME as sabor, BORDA.NOME borda, COUNT(*) as pedidos
+    from comanda
+        join pizza on pizza.comanda = comanda.numero
+        join pizzasabor on pizzasabor.pizza = pizza.codigo
+        join sabor on pizzasabor.sabor = sabor.codigo
+        join borda on pizza.borda = borda.codigo
+    where date(comanda.data) BETWEEN DATE('now', '-3 months', 'localtime') 
+	AND DATE('now', 'localtime')
+    group by borda.codigo, SABOR.CODIGO
+order by pedidos desc
+limit 1;
