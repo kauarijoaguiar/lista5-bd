@@ -624,8 +624,3 @@ LIMIT 5 ) as mesRetrasado on mesPassado.codigo=mesRetrasado.codigo
 --K)
 --L)
 
-
-
-
-
-
